@@ -1,3 +1,5 @@
+import ReconlyMark from "@/components/ReconlyMark";
+
 const columns = [
   {
     title: "Product",
@@ -24,8 +26,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <div className="flex items-center gap-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/ribbon.png" alt="" className="h-7 w-7 object-contain" />
+              <ReconlyMark size={26} />
               <span className="text-sm font-medium tracking-[0.18em] text-white">RECONLY</span>
             </div>
             <p className="mt-4 max-w-[26ch] text-xs leading-relaxed text-[#6B7280]">

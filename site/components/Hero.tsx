@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Particles from "./Particles";
+import { DemoButton } from "./DemoRequest";
 
 /**
  * Hero with cursor interaction: the glass ribbon tilts toward the pointer
@@ -132,9 +133,7 @@ export default function Hero() {
           clean DATEV exports, your compliance team gets peace of mind.
         </p>
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-          <a href="#cta" className="btn-primary">
-            Book a demo
-          </a>
+          <DemoButton className="btn-primary">Book a demo</DemoButton>
           <a href="#product" className="btn-ghost text-[#D1D5DB]">
             See how it works
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">

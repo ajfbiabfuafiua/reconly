@@ -1,46 +1,51 @@
-# Reconly — Marketing Site
+# Reconly — Platform
 
-Premium dark landing page for Reconly, a B2B SaaS platform for crypto accounting & compliance (crypto sub-ledger, DATEV-ready bookkeeping, MiCA/AML reporting).
+Full-stack B2B SaaS for crypto accounting & compliance: marketing site, customer
+dashboard, admin panel and a built-in AI assistant. Dark liquid-glass design,
+strictly monochrome.
 
 ## Stack
 
-- Next.js 15 (App Router, Turbopack), React 19, Tailwind CSS v4
-- Single static page, dark theme only, fully self-contained (no external assets at runtime)
+- Next.js 15 (App Router, Turbopack) · React 19 · Tailwind v4
+- **Clerk** — authentication (login/register, sessions, invitations, webhooks)
+- **Supabase** — Postgres (RLS deny-by-default) + Storage, data only
+- **Anthropic API** — Reconly Assist (`claude-sonnet-4-6`, streaming)
 
-## Develop
+## Setup
 
 ```bash
 pnpm install
-pnpm dev        # http://localhost:3001
-pnpm build      # production build (static)
+cp .env.example .env.local   # fill in Clerk, Supabase, Anthropic keys
+pnpm dev                     # http://localhost:3001
 ```
 
-## App & auth
+1. **Clerk**: create an app, copy keys. Add a webhook for `user.created/updated/deleted`
+   → `/api/webhooks/clerk` (secret → `CLERK_WEBHOOK_SECRET`). Recommended: session token
+   customization `{ "publicMetadata": "{{user.public_metadata}}" }` for fast middleware gates.
+2. **Supabase**: create a project, run `supabase/schema.sql` in the SQL editor
+   (idempotent), optionally `supabase/seed.sql` for demo data. Copy URL + service-role key.
+3. **Anthropic**: create an API key for Reconly Assist.
+4. Make yourself admin: sign in once, then in Supabase set your row in `profiles`
+   to `role = 'admin', status = 'active'` (the app mirrors it to Clerk automatically).
 
-The product lives under `/dashboard` (overview, transactions, compliance, DATEV
-exports, admin) behind Clerk auth with an approval gate:
+Without keys, the marketing site works and app routes show a setup notice.
 
-1. Create an app at dashboard.clerk.com, copy `.env.example` → `.env.local` and
-   fill `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `ADMIN_EMAILS`.
-2. Users sign in at `/sign-in`; new accounts land on `/waitlist` until an admin
-   grants access at `/dashboard/admin` (stored as `publicMetadata.approved`).
-   Emails in `ADMIN_EMAILS` are auto-approved admins.
-3. Without Clerk keys the marketing site still works and app routes show a
-   setup notice.
+## Architecture
 
-Ledger data comes from a deterministic mock engine (`lib/ledger.ts`) — swap for
-the real ingestion API without touching the UI.
+- `/` — landing page with demo-request modal (honeypot + rate limit → `demo_requests`)
+- `/login` `/register` — Clerk, glass-styled · `/verifying` — branded post-login loader
+- `/pending` `/suspended` — account states (status lives in `profiles`, mirrored to Clerk
+  `publicMetadata`; middleware gates fast, layouts re-check the DB authoritatively)
+- `/app/*` — customer dashboard: overview, wallets (CRUD + mock import), transactions
+  (filters, drawer, bulk categorize), reports (CSV to Storage + signed downloads),
+  compliance (alerts + screening), settings
+- `/admin/*` — overview, demo requests (Clerk invitations), users (activate, ban with
+  session revocation, plan/role changes, read-only impersonation), audit log, settings,
+  assistant usage/quotas/kill switch + audited conversation inspector
+- `/api/assist` — streaming assistant route: quota check (hourly + per-plan monthly),
+  server-side user-scoped data snapshot, hard boundaries in the system prompt,
+  conversations persisted with token usage
 
-## Design system
-
-"Dark liquid glass": pure black background, monochrome grey-to-white light. Glass
-utilities live in `app/globals.css` (`.glass`, `.glass-strong`, `.light-seam`,
-`.btn-primary`). The folded glass ribbon (`public/ribbon.png`, from `../assets/`)
-is the brand mark — used in the navbar, hero, final CTA and favicon.
-
-Interactions: cursor-follow spotlight + ribbon tilt in the hero (`components/Hero.tsx`),
-interactive particle field (`components/Particles.tsx`), scroll reveals
-(`components/Reveal.tsx`). All motion respects `prefers-reduced-motion`.
-
-Note: write `backdrop-filter` without a `-webkit-` twin in globals.css — the CSS
-minifier drops the pair otherwise (prefixing is automatic).
+Security: RLS on every table (deny-by-default, Clerk JWT `sub`); service-role and
+Anthropic keys server-only; every admin mutation writes to `audit_log`; svix-verified
+webhooks; banned users lose sessions immediately.

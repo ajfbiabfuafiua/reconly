@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
+import { DemoButton } from "./DemoRequest";
 
 type Billing = "monthly" | "annual";
 
@@ -164,16 +165,16 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#cta"
-                className={`mt-8 text-sm ${
+              <DemoButton
+                plan={t.name.toLowerCase()}
+                className={`mt-8 w-full text-sm ${
                   t.highlight
                     ? "btn-primary"
                     : "btn-ghost justify-center border !border-white/15"
                 }`}
               >
                 {t.cta}
-              </a>
+              </DemoButton>
             </div>
           </Reveal>
         ))}

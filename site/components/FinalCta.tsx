@@ -1,6 +1,7 @@
 import Globe from "./Globe";
 import Particles from "./Particles";
 import Reveal from "./Reveal";
+import { DemoButton } from "./DemoRequest";
 
 export default function FinalCta() {
   return (
@@ -28,9 +29,7 @@ export default function FinalCta() {
             See your own wallets turned into audit-ready books — live, in thirty minutes.
           </p>
           <div className="mt-9">
-            <a href="mailto:hello@reconly.io?subject=Demo%20request" className="btn-primary text-base">
-              Book a demo
-            </a>
+            <DemoButton className="btn-primary text-base">Book a demo</DemoButton>
           </div>
         </Reveal>
       </div>

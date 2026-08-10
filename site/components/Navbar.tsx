@@ -1,3 +1,6 @@
+import { DemoButton } from "@/components/DemoRequest";
+import ReconlyMark from "@/components/ReconlyMark";
+
 const links = [
   { href: "#product", label: "Product" },
   { href: "#compliance", label: "Compliance" },
@@ -11,12 +14,7 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-black/55 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/ribbon.png"
-            alt=""
-            className="h-8 w-8 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.35)]"
-          />
+          <ReconlyMark size={28} />
           <span className="text-[15px] font-medium tracking-[0.18em] text-white">
             RECONLY
           </span>
@@ -35,12 +33,10 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <a href="/sign-in" className="btn-ghost hidden !py-2 text-sm sm:inline-flex">
+          <a href="/login" className="btn-ghost hidden !py-2 text-sm sm:inline-flex">
             Sign in
           </a>
-          <a href="#cta" className="btn-primary !py-2 !px-5 text-sm">
-            Book a demo
-          </a>
+          <DemoButton className="btn-primary !py-2 !px-5 text-sm">Book a demo</DemoButton>
         </div>
       </nav>
     </header>

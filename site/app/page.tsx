@@ -1,3 +1,4 @@
+import { DemoRequestProvider } from "@/components/DemoRequest";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
@@ -11,7 +12,8 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <DemoRequestProvider>
+      <main>
       <Navbar />
       <Hero />
       <TrustBar />
@@ -21,7 +23,8 @@ export default function Home() {
       <Pricing />
       <Faq />
       <FinalCta />
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </DemoRequestProvider>
   );
 }

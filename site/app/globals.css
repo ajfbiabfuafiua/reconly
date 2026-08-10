@@ -199,6 +199,72 @@ html.js .reveal.is-visible {
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 72%);
 }
 
+/* ---------- Reconly mark (animated SVG ribbon) ---------- */
+
+.reconly-mark .ribbon-edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.reconly-mark.animate .ribbon-edge {
+  stroke-dashoffset: 1;
+  animation: drawEdge 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.reconly-mark.animate .ribbon-fill {
+  opacity: 0;
+  filter: blur(6px);
+  animation: fillIn 700ms ease-out 500ms forwards;
+}
+.reconly-mark.animate .ribbon-seam {
+  animation: seamSweep 600ms ease-in-out 1100ms forwards;
+}
+.reconly-mark.animate {
+  animation: pulseGlow 1200ms ease-out 1500ms;
+}
+.reconly-mark.loader .ribbon-edge {
+  stroke-dasharray: 0.25 0.75;
+  animation: loaderEdge 1100ms linear infinite;
+}
+@keyframes drawEdge {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fillIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes seamSweep {
+  0% {
+    opacity: 0;
+    transform: rotate(-24deg) translateX(-30px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-24deg) translateX(30px);
+  }
+}
+@keyframes pulseGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  40% {
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.25));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+}
+@keyframes loaderEdge {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
 /* ---------- Logo marquee ---------- */
 
 .marquee {
@@ -239,6 +305,13 @@ details summary::-webkit-details-marker {
   html {
     scroll-behavior: auto;
   }
+  .reconly-mark.animate *,
+  .reconly-mark.loader * {
+    animation: none !important;
+  }
+  .reconly-mark.animate {
+    animation: simpleFade 400ms ease-out;
+  }
   .drift-slow,
   .drift-slower,
   .marquee-track {
@@ -252,4 +325,19 @@ details summary::-webkit-details-marker {
   .btn-primary::after {
     display: none;
   }
+}
+
+@keyframes simpleFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* focus visibility (thin white outline) */
+:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
 }
