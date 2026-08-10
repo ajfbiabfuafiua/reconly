@@ -104,7 +104,7 @@ export default function Pricing() {
             ))}
           </div>
           <span
-            className={`glass light-seam absolute left-full top-1/2 ml-3 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] tracking-wide text-white transition-opacity duration-200 ${
+            className={`glass absolute left-full top-1/2 ml-3 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] tracking-wide text-white transition-opacity duration-200 ${
               billing === "annual" ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
             aria-hidden={billing !== "annual"}
