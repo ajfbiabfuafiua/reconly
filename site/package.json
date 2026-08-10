@@ -8,6 +8,8 @@
     "start": "next start -p 3001"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.7.1",
+    "@clerk/themes": "^2.4.57",
     "next": "15.5.23",
     "react": "19.1.0",
     "react-dom": "19.1.0"

@@ -15,6 +15,22 @@ pnpm dev        # http://localhost:3001
 pnpm build      # production build (static)
 ```
 
+## App & auth
+
+The product lives under `/dashboard` (overview, transactions, compliance, DATEV
+exports, admin) behind Clerk auth with an approval gate:
+
+1. Create an app at dashboard.clerk.com, copy `.env.example` → `.env.local` and
+   fill `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `ADMIN_EMAILS`.
+2. Users sign in at `/sign-in`; new accounts land on `/waitlist` until an admin
+   grants access at `/dashboard/admin` (stored as `publicMetadata.approved`).
+   Emails in `ADMIN_EMAILS` are auto-approved admins.
+3. Without Clerk keys the marketing site still works and app routes show a
+   setup notice.
+
+Ledger data comes from a deterministic mock engine (`lib/ledger.ts`) — swap for
+the real ingestion API without touching the UI.
+
 ## Design system
 
 "Dark liquid glass": pure black background, monochrome grey-to-white light. Glass

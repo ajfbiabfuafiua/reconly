@@ -35,7 +35,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <a href="#" className="btn-ghost hidden !py-2 text-sm sm:inline-flex">
+          <a href="/sign-in" className="btn-ghost hidden !py-2 text-sm sm:inline-flex">
             Sign in
           </a>
           <a href="#cta" className="btn-primary !py-2 !px-5 text-sm">
