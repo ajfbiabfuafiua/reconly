@@ -80,8 +80,8 @@ export default function Pricing() {
           Sober pricing for serious books
         </h2>
 
-        {/* billing toggle */}
-        <div className="mt-8 inline-flex items-center gap-3">
+        {/* billing toggle — tag is absolutely positioned so the pill stays centered */}
+        <div className="relative mt-8 inline-flex">
           <div
             className="glass relative inline-flex rounded-full p-1"
             role="group"
@@ -104,7 +104,7 @@ export default function Pricing() {
             ))}
           </div>
           <span
-            className={`glass light-seam rounded-full px-3 py-1 text-[11px] tracking-wide text-white transition-opacity duration-200 ${
+            className={`glass light-seam absolute left-full top-1/2 ml-3 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] tracking-wide text-white transition-opacity duration-200 ${
               billing === "annual" ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
             aria-hidden={billing !== "annual"}
